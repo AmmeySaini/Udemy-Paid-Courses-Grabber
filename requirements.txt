@@ -1,5 +1,5 @@
 requests
 browser_cookie3
-BeautifulSoup
+BeautifulSoup4
 colorama
 bs4
