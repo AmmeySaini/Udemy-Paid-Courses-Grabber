@@ -232,28 +232,28 @@ def main():
                     print('\n' + fc + sd + '-------' + fm + sb + '>>' + fb +' Discudemy ' + fm + sb + '<<' + fc + sd + '-------\n')
                     while d <= limit:
                         list_st = discudemy(d)
-                        site = process(list_st, d, limit, site_index)
+                        site = process(list_st, d, limit, site_index, cookies, access_token, csrftoken)
                         d += 1
                 if site == 'Udemy Freebies':
                     limit = 4
                     print('\n' + fc + sd + '-------' + fm + sb + '>>' + fb +' Udemy Freebies ' + fm + sb + '<<' + fc + sd + '-------\n')
                     while d <= limit:
                         list_st = udemy_freebies(d)
-                        site = process(list_st, d, limit, site_index)
+                        site = process(list_st, d, limit, site_index, cookies, access_token, csrftoken)
                         d += 1
                 if site == 'Udemy Coupons':
                     limit = 4
                     print('\n' + fc + sd + '-------' + fm + sb + '>>' + fb +' Udemy Coupons ' + fm + sb + '<<' + fc + sd + '-------\n')
                     while d <= limit:
                         list_st = udemy_coupons_me(d)
-                        site = process(list_st, d, limit, site_index)
+                        site = process(list_st, d, limit, site_index, cookies, access_token, csrftoken)
                         d += 1
                 if site == 'Real Discount':
                     limit = 4
                     print('\n' + fc + sd + '-------' + fm + sb + '>>' + fb +' Real Discount ' + fm + sb + '<<' + fc + sd + '-------\n')
                     while d <= limit:
                         list_st = real_disc(d)
-                        site = process(list_st, d, limit, site_index)
+                        site = process(list_st, d, limit, site_index, cookies, access_token, csrftoken)
                         d += 1
         elif input_1 == 'y':
             global count
