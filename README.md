@@ -27,3 +27,10 @@ Script to add all udemy paid/free courses having coupons automatically to your u
 ***Add all/specific course***
 
     python udemy.py
+
+***Or with cookie***
+
+    python udemy.py -c cookie.txt
+
+***Guide to create cookie.txt file***
+- Firstly go to udemy.com, then follow the images guide below
