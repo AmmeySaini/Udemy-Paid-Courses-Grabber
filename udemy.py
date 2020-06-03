@@ -206,6 +206,12 @@ def main():
         type=str,\
         help="Cookies to authenticate",metavar='')
     
+    authentication.add_argument(
+        '-k', '--cron',\
+        dest='cron',\
+        action='store_true',\
+        help="Added support to create a cron job/task")
+    
     try:
         args = parser.parse_args()
         ip = ".".join(map(str, (random.randint(0, 255) 
@@ -272,9 +278,15 @@ def main():
             for site in total_sites:
                 print(random.choice(colors) + site)
             
-            print('\n' + fc + sd + '----' + fm + sb + '>>' + fb + ' Want to see available coupons (INPUT "n") OR subscribe to all available courses automatically (input "y"): ', end='')
-            input_1 = input()
-            more = ''
+            try:
+                if args.cron:
+                    input_1 = 'y'
+                else:
+                    print('\n' + fc + sd + '----' + fm + sb + '>>' + fb + ' Want to see available coupons (INPUT "n") OR subscribe to all available courses automatically (input "y"): ', end='')
+                    input_1 = input()
+                    more = ''
+            except:
+                pass
 
             if input_1 == 'n':
                 global d
