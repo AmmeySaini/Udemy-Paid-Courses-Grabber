@@ -236,7 +236,7 @@ def jojocoupons(page):
         for tag in soup1.find_all('a'):
             try:
                 if urlparse(tag['href']).netloc == 'www.udemy.com' or urlparse(tag['href']).netloc == 'udemy.com':
-                    print(tag['href'])
+                    # print(tag['href'])
                     links_ls.append(title + '||' + tag['href'])
                     break
             except:
