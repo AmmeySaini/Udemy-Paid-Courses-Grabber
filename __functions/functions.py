@@ -4,6 +4,7 @@ import urllib3
 import sys
 import time
 import random
+from urllib.parse import urlparse
 import json
 from __constants.constants import *
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
@@ -139,4 +140,128 @@ def discudemy(page):
             links_ls.append(title + '||' + soup3.find('div', 'ui segment').a['href'])
     return links_ls
 
-# print(real_disc(1))
+########### NEW WEBSITES #############
+def tricksinfo(page):
+    links_ls = []
+    head = {
+        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/81.0.4044.138 Safari/537.36',
+        'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9'
+    }
+
+    r = requests.get(TRICKSINF + str(page), headers=head, verify=False)
+    soup = BeautifulSoup(r.content, 'html.parser')
+    all = soup.find_all('a', class_ = 'post-thumb')
+    for index, items in enumerate(all):
+        title = items['aria-label']
+        url2 = items['href']
+        r2 = requests.get(url2, headers=head, verify=False)
+        sys.stdout.write("\rLOADING URLS: " + animation[index % len(animation)])
+        sys.stdout.flush()
+        soup1 = BeautifulSoup(r2.content, 'html.parser')
+        link = soup1.find('div', 'wp-block-button').a['href']
+        links_ls.append(title + '||' + link)
+    return links_ls
+
+def freewebcart(page):
+    links_ls = []
+    head = {
+        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/81.0.4044.138 Safari/537.36',
+        'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9'
+    }
+
+    r = requests.get(WEBCART + str(page), headers=head, verify=False)
+    soup = BeautifulSoup(r.content, 'html.parser')
+    all = soup.find_all('h2', class_ = 'title')
+    for index, items in enumerate(all):
+        title = items.text
+        url2 = items.a['href']
+        r2 = requests.get(url2, headers=head, verify=False)
+        sys.stdout.write("\rLOADING URLS: " + animation[index % len(animation)])
+        sys.stdout.flush()
+        soup1 = BeautifulSoup(r2.content, 'html.parser')
+        link = soup1.find('a', class_ = 'btn btn-default btn-lg')['href']
+        links_ls.append(title + '||' + link)
+    return links_ls
+
+def course_mania(page):
+    links_ls = []
+    head = {
+        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/81.0.4044.138 Safari/537.36',
+        'Referer': 'https://coursemania.xyz/',
+        'Origin': 'https://coursemania.xyz',
+        'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9'
+    }
+
+    r = requests.get(COURSEMANIA, headers=head, verify=False)
+    js = r.json()
+    for items in js:
+        title = items['courseName']
+        link = items['url']
+        links_ls.append(title + '||' + link)
+    return links_ls
+
+def helpcovid(page):
+    links_ls = []
+    head = {
+        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/81.0.4044.138 Safari/537.36',
+        'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9'
+    }
+
+    r = requests.get(HELPCOV, headers=head, verify=False)
+    js = r.json()
+    for items in js['courses']:
+        title = items['title']
+        link = items['url']
+        links_ls.append(title + '||' + link)
+    return links_ls
+
+def jojocoupons(page):
+    links_ls = []
+    head = {
+        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/81.0.4044.138 Safari/537.36',
+        'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9'
+    }
+
+    r = requests.get(JOJOCP + str(page), headers=head, verify=False)
+    soup = BeautifulSoup(r.content, 'html.parser')
+    all = soup.find_all('h2', class_ = 'font130 mt0 mb10 mobfont110 lineheight20')
+    for index, items in enumerate(all):
+        title = items.text
+        url2 = items.a['href']
+        r2 = requests.get(url2, headers=head, verify=False)
+        sys.stdout.write("\rLOADING URLS: " + animation[index % len(animation)])
+        sys.stdout.flush()
+        soup1 = BeautifulSoup(r2.content, 'html.parser')
+        link = soup1.find('div', class_ = 'rh-post-wrapper')
+        for tag in soup1.find_all('a'):
+            try:
+                if urlparse(tag['href']).netloc == 'www.udemy.com' or urlparse(tag['href']).netloc == 'udemy.com':
+                    print(tag['href'])
+                    links_ls.append(title + '||' + tag['href'])
+                    break
+            except:
+                r = ''           
+    return links_ls
+
+def onlinetutorials(page):
+    links_ls = []
+    head = {
+        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/81.0.4044.138 Safari/537.36',
+        'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9'
+    }
+
+    r = requests.get(ONLINETUT + str(page), headers=head, verify=False)
+    soup = BeautifulSoup(r.content, 'html.parser')
+    all = soup.find_all('h3', class_ = 'entry-title')
+    for index, items in enumerate(all):
+        title = items.text
+        url2 = items.a['href']
+        r2 = requests.get(url2, headers=head, verify=False)
+        sys.stdout.write("\rLOADING URLS: " + animation[index % len(animation)])
+        sys.stdout.flush()
+        soup1 = BeautifulSoup(r2.content, 'html.parser')
+        link = soup1.find('div', class_ = 'link-holder').a['href']
+        links_ls.append(title + '||' + link)
+    return links_ls
+
+# print(onlinetutorials(1))
