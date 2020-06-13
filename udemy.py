@@ -79,7 +79,7 @@ def free_enroll(courseID, access_token, cookies, csrftoken, head):
 def auto_add(list_st, cookies, access_token, csrftoken, head):
     print('\n')
     index = 0
-    global count
+    global count, paid_only
     while index <= len(list_st) - 1:
         sp1 = list_st[index].split('||')
         print(fc + sd + '[' + fm + sb + '*' + fc + sd + '] ' + fr + str(index + 1), fy + sp1[0], end='')
@@ -121,14 +121,18 @@ def auto_add(list_st, cookies, access_token, csrftoken, head):
                 time.sleep(5)
 
         elif couponID == '' and purchased_text == '':
-            js = free_enroll(course_id, access_token, cookies, csrftoken, head)
-            try:
-                if js['_class'] == 'course':
-                    print(fg + ' Successfully Subscribed')
-                    count += 1
+            if paid_only == False:
+                js = free_enroll(course_id, access_token, cookies, csrftoken, head)
+                try:
+                    if js['_class'] == 'course':
+                        print(fg + ' Successfully Subscribed')
+                        count += 1
+                        index += 1
+                except:
+                    print(fb + ' COUPON MIGHT HAVE EXPIRED')
                     index += 1
-            except:
-                print(fb + ' COUPON MIGHT HAVE EXPIRED')
+            else:
+                print(fg + ' This is a Free Course (Skipped)')
                 index += 1
         else:
             print(' ' + fc + purchased_text)
@@ -179,7 +183,7 @@ def process(list_st, dd, limit, site_index, cookies, access_token, csrftoken, he
 
 def fetch_cookies():
     try:
-        cookies = browser_cookie3.load(domain_name='www.udemy.com')
+        cookies = browser_cookie3.firefox(domain_name='www.udemy.com')
         return requests.utils.dict_from_cookiejar(cookies), cookies
     except:
         print('\n' + fc + sd + '[' + fm + sb + '*' + fc + sd + '] ' + fr + 'Auto login failed!!, try by adding cookie file using "py udemy.py -c cookie_file.txt"')
@@ -211,11 +215,23 @@ def main():
         dest='cron',\
         action='store_true',\
         help="Added support to create a cron job/task")
+
+    authentication.add_argument(
+        '-p', '--paid',\
+        dest='paid',\
+        action='store_true',\
+        help="Enrol to only paid courses")
     
     try:
         args = parser.parse_args()
         ip = ".".join(map(str, (random.randint(0, 255) 
                                 for _ in range(4))))
+        global paid_only
+        if args.paid:
+            paid_only = True
+        else:
+            paid_only = False
+        
         if args.cookies:
             print('\n' + fc + sd + '[' + fm + sb + '*' + fc + sd + '] ' + fg +'Trying to login with cookies! \n')
             time.sleep(0.8)
