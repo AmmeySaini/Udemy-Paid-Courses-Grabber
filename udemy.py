@@ -183,7 +183,7 @@ def process(list_st, dd, limit, site_index, cookies, access_token, csrftoken, he
 
 def fetch_cookies():
     try:
-        cookies = browser_cookie3.firefox(domain_name='www.udemy.com')
+        cookies = browser_cookie3.load(domain_name='www.udemy.com')
         return requests.utils.dict_from_cookiejar(cookies), cookies
     except:
         print('\n' + fc + sd + '[' + fm + sb + '*' + fc + sd + '] ' + fr + 'Auto login failed!!, try by adding cookie file using "py udemy.py -c cookie_file.txt"')
