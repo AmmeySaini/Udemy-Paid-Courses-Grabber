@@ -17,7 +17,6 @@ from urllib.parse import urlsplit, parse_qs
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 
 func_list = [
-    lambda page : learnviral(page),
     lambda page : discudemy(page),
     lambda page : udemy_freebies(page),
     lambda page : udemy_coupons_me(page),
@@ -25,7 +24,6 @@ func_list = [
     lambda page : tricksinfo(page),
     lambda page : freewebcart(page),
     lambda page : course_mania(page),
-    lambda page : helpcovid(page),
     lambda page : jojocoupons(page),
     lambda page : onlinetutorials(page),
 ]
@@ -43,13 +41,14 @@ def get_course_id(url, cookies):
     except:
         purchased_text = ''
     try:
-        courseid = soup.find('div', class_ = 'full-width full-width--streamer streamer--complete')['data-course-id']
+        courseid = soup.find('body', attrs = {'id': 'udemy'})['data-clp-course-id']
     except:
         try:
-            courseid = soup.find('div', class_ = 'udlite-full-width-container')['data-course-id']
+            courseid = j[1]['sku'].replace('course:', '')
         except:
-            purchased_text = 'This course is no longer accepting enrollments'
-            courseid = ''
+            soupx = soup.find('div', class_ = 'ud-component--course-landing-page-udlite--buy-button-cacheable')
+            likk = soupx.find('a')['href']
+            courseid = int(re.search(r'\d+', likk).group(0))
     
     return courseid
 
