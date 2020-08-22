@@ -47,9 +47,11 @@ def get_course_id(url, cookies):
             courseid = j[1]['sku'].replace('course:', '')
         except:
             soupx = soup.find('div', class_ = 'ud-component--course-landing-page-udlite--buy-button-cacheable')
-            likk = soupx.find('a')['href']
-            courseid = int(re.search(r'\d+', likk).group(0))
-    
+            if soupx != None:
+                likk = soupx.find('a')['href']
+                courseid = int(re.search(r'\d+', likk).group(0))
+            else:
+                courseid = 'dsad'
     return courseid
 
 
@@ -89,29 +91,32 @@ def auto_add(list_st, cookies, access_token, csrftoken, head):
 
         if couponID != '' and purchased_text == '':
             slp = ''
-            js = free_checkout(CHECKOUT, access_token, csrftoken, couponID, course_id, cookies, head)
-
             try:
-                if js['status'] == 'succeeded':
-                    print(fg + ' Successfully Enrolled To Course')
-                    count += 1
-                    index += 1
-            except:
+                js = free_checkout(CHECKOUT, access_token, csrftoken, couponID, course_id, cookies, head)
+
                 try:
-                    msg = js['detail']
-                    print(' ' + fr + msg)
-                    slp = int(re.search(r'\d+', msg).group(0))
-                    # index -= 1
-                except:
-                    print(fr + ' Expired Coupon ' + js['message'])
-                    index += 1
-            else:
-                try:
-                    if js['status'] == 'failed':
-                        print(fr + ' Coupon Expired :( ')
+                    if js['status'] == 'succeeded':
+                        print(fg + ' Successfully Enrolled To Course')
+                        count += 1
                         index += 1
                 except:
-                    bnn = ''
+                    try:
+                        msg = js['detail']
+                        print(' ' + fr + msg)
+                        slp = int(re.search(r'\d+', msg).group(0))
+                        # index -= 1
+                    except:
+                        print(fr + ' Expired Coupon ' + js['message'])
+                        index += 1
+                else:
+                    try:
+                        if js['status'] == 'failed':
+                            print(fr + ' Coupon Expired :( ')
+                            index += 1
+                    except:
+                        bnn = ''
+            except:
+                pass
             if slp != '':
                 slp += 10
                 print(fc + sd + '----' + fm + sb + '>>' +  fb + ' Pausing execution of script for ' + fr + str(slp) + ' seconds')
