@@ -32,6 +32,10 @@ def cookiejar(client_id, access_token):
     cookies = dict(client_id=client_id, access_token=access_token)
     return cookies
 
+def getRealUrl(url):
+    path = url.split(".com/")[1]
+    return "https://www.udemy.com/" + path
+
 def get_course_id(url, cookies):
     global purchased_text
     r2 = requests.get(url, verify=False, cookies=cookies)
@@ -85,7 +89,8 @@ def auto_add(list_st, cookies, access_token, csrftoken, head):
         sp1 = list_st[index].split('||')
         print(fc + sd + '[' + fm + sb + '*' + fc + sd + '] ' + fr + str(index + 1), fy + sp1[0], end='')
 
-        link = list_st[index].split('||')[1]
+        link = getRealUrl(sp1[1])
+        print(link)
         couponID = get_course_coupon(link)
         course_id = get_course_id(link, cookies)
 
