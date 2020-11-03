@@ -60,7 +60,7 @@ Script to add all udemy paid/free courses having coupons automatically to your u
 <img src='images/image6.jpg' width='600' height='400'>
 
 ***Using github actions to automate***
--Firstly under settings create 2 secrets named ACCESS_TOKEN & CLIENT_ID and put your appropriate values in ityou
--Now you'll be able to see your workflow unders Actions tab.
--Script will run at 00:00 indian time daily
+- Firstly under settings create 2 secrets named ACCESS_TOKEN & CLIENT_ID and put your appropriate values in ityou
+- Now you'll be able to see your workflow unders Actions tab.
+- Script will run at 00:00 indian time daily
  
