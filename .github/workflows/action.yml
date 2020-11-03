@@ -1,0 +1,23 @@
+name : Paid udemy courses grabber
+on:
+  workflow_dispatch:
+    inputs:
+  schedule:
+    - cron: 0 18 * * *
+jobs:
+  Udemy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Setup python 3
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.x'
+      - name: Install requirements
+        run: pip install -r requirements.txt
+      - name: Create Cookie file
+        run: echo -n "${{ secrets.ACCESS_TOKEN }} || ${{ secrets.CLIENT_ID }}" > cookie_file.txt
+      - name: Start
+        run: python udemy.py --paid -c cookie_file.txt --cron
+      - name: cleanup
+        run: rm cookie_file.txt
