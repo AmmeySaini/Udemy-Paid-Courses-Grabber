@@ -70,7 +70,21 @@ def get_course_coupon(url):
 
 def free_checkout(CHECKOUT, access_token, csrftoken, coupon, courseID, cookies, head):
     payload = '{"shopping_cart":{"items":[{"buyableType":"course","buyableId":' + str(courseID) + ',"discountInfo":{"code":"' + coupon + '"},"purchasePrice":{"currency":"INR","currency_symbol":"","amount":0,"price_string":"Free"},"buyableContext":{"contentLocaleId":null}}]},"payment_info":{"payment_vendor":"Free","payment_method":"free-method"}}'
-
+    ip = ".".join(map(str, (random.randint(0, 255) 
+                        for _ in range(4))))
+    head = {
+        'authorization': 'Bearer ' + access_token,
+        'accept': 'application/json, text/plain, */*',
+        'x-requested-with': 'XMLHttpRequest',
+        'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/81.0.4044.138 Safari/537.36',
+        'x-csrftoken': csrftoken,
+        'x-forwarded-for': str(ip),
+        'x-udemy-authorization': 'Bearer ' + access_token,
+        'content-type': 'application/json;charset=UTF-8',
+        'origin': 'https://www.udemy.com',
+        'referer': 'https://www.udemy.com/',
+        'Content-Length': str(len(payload))
+    }
     r = requests.post(CHECKOUT, headers=head, data=payload, cookies=cookies, verify=False)
     return r.json()
 
