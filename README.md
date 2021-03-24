@@ -3,7 +3,7 @@ Script to add all udemy paid/free courses having coupons automatically to your u
 
 ## ***Requirements***
 
-- Python (2 or 3)
+- Python 3
 - Python `pip`
 - Python module `requests`
 - Python module `colorama`
